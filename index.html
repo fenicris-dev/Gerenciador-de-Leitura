@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fênix | Leitura</title>
+<meta name="theme-color" content="#041273">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_64.png">
+<link rel="apple-touch-icon" href="https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_192.png">
+<style>
+:root{--navy:#041273;--gold:#c9a227;--gold2:#f3e3a3;--bg:#f4f5fb;--card:#fff;--tx:#14172b;--mut:#5d6380;--ok:#1f8a4c;--warn:#d97400;--err:#c62828;--bd:#dfe2ef}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overscroll-behavior-y:contain}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:16px;line-height:1.35}
+header{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+header img{width:34px;height:34px;border-radius:8px;background:#fff}
+header h1{font-size:18px;margin:0;flex:1}
+header small{display:block;color:var(--gold2);font-size:12px;font-weight:400}
+main{padding:14px 14px 110px;max-width:720px;margin:0 auto}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bd);display:flex;z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;min-height:58px;border:0;background:none;font-size:12px;color:var(--mut);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-top:3px solid transparent}
+nav button b{font-size:20px;font-weight:400}
+nav button.on{color:var(--navy);font-weight:700;border-top-color:var(--gold)}
+h2,h3{margin:0 0 8px}
+h3{font-size:15px;color:var(--navy);margin-top:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px}
+.card.ativa{border:2px solid var(--gold);background:#fffdf3}
+.mut{color:var(--mut);font-size:14px}
+.rowb{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+.btn{min-height:46px;border-radius:12px;border:1px solid var(--navy);background:#fff;color:var(--navy);font-size:16px;font-weight:600;padding:8px 14px}
+.btn.pri{background:var(--navy);color:#fff}
+.btn.sec{background:#eef0fa;border-color:#eef0fa}
+.btn.dan{color:var(--err);border-color:var(--err)}
+.btn.dan.solid{background:var(--err);color:#fff}
+.btn.ghost{border-color:var(--bd)}
+.btn.big{width:100%;min-height:64px;font-size:19px;margin-bottom:10px}
+.btn[disabled]{opacity:.45}
+.btn.sm{min-height:40px;font-size:14px;padding:4px 10px;flex:0 0 auto;min-width:0}
+.timer{font-size:46px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums;color:var(--navy);margin:8px 0}
+.chip{display:inline-block;font-size:12px;border-radius:99px;padding:2px 10px;background:#eef0fa;color:var(--navy);white-space:nowrap}
+.chip.ok{background:#dff3e7;color:var(--ok)}.chip.warn{background:#ffefd6;color:var(--warn)}.chip.gold{background:var(--gold2);color:#6b5400}
+.bar{height:10px;background:#e6e8f4;border-radius:99px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--navy),var(--gold))}
+label{display:block;font-size:14px;color:var(--mut);margin-bottom:10px}
+input,select,textarea{display:block;width:100%;min-height:46px;margin-top:4px;padding:8px 10px;font-size:16px;border:1px solid var(--bd);border-radius:10px;background:#fff;color:var(--tx);font-family:inherit}
+textarea{min-height:140px;resize:vertical}
+input[type=checkbox]{display:inline-block;width:22px;height:22px;min-height:0;margin:0 8px 0 0;vertical-align:middle}
+.ck{display:flex;align-items:center;color:var(--tx);font-size:16px;margin:10px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{background:#f4f5fb;border-radius:10px;padding:8px}
+.st b{display:block;font-size:17px;color:var(--navy)}
+.st span{font-size:12px;color:var(--mut)}
+.ov{position:fixed;inset:0;background:rgba(4,18,115,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center;overscroll-behavior:contain}
+.md{background:#fff;width:100%;max-width:720px;max-height:94vh;border-radius:18px 18px 0 0;display:flex;flex-direction:column}
+.mh{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--bd)}
+.mh h2{flex:1;font-size:17px;margin:0}
+.x{width:46px;height:46px;border:0;background:#eef0fa;border-radius:50%;font-size:20px;color:var(--navy)}
+.mb{padding:14px;overflow:auto;overscroll-behavior:contain;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+details{border:1px solid var(--bd);border-radius:12px;margin-top:10px;background:#fff}
+summary{padding:12px;font-weight:600;color:var(--navy);min-height:46px;cursor:pointer}
+details>div{padding:0 12px 12px}
+.it{border-top:1px solid var(--bd);padding:10px 0}
+.it:first-child{border-top:0}
+.acts{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.fab{position:fixed;right:16px;bottom:78px;z-index:7;min-height:54px;border-radius:99px;background:var(--gold);color:#1b1500;border:0;font-weight:700;font-size:16px;padding:0 20px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:99px;z-index:60;font-size:14px;max-width:90%;display:none;text-align:center}
+.rod{text-align:center;color:var(--mut);font-size:12px;margin-top:26px}
+.rod a{color:var(--navy)}
+.empty{text-align:center;color:var(--mut);padding:22px 10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--bd)}
+th{color:var(--mut);font-weight:600}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:6px}
+.chips button{flex:0 0 auto;min-height:38px;border-radius:99px;border:1px solid var(--bd);background:#fff;padding:0 14px;font-size:14px;color:var(--tx)}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1020;--card:#161a30;--tx:#eceefa;--mut:#a3a9c9;--bd:#2a3050}.md,input,select,textarea,details,nav,.chips button{background:#161a30}.btn{background:#161a30;color:#dfe3ff}.btn.pri{background:var(--gold);color:#1b1500;border-color:var(--gold)}.btn.sec{background:#222849;border-color:#222849}.st{background:#1d2240}.card.ativa{background:#241f0c}.timer,h3,summary,.st b{color:var(--gold2)}.x{background:#222849;color:#fff}.chip{background:#222849;color:#dfe3ff}nav button.on{color:var(--gold2)}.rod a{color:var(--gold2)}.btn.dan{color:#ff8a8a}}
+</style>
+</head>
+<body>
+<header>
+  <img src="https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_64.png" alt="Fênix" onerror="this.style.display='none'">
+  <h1>Fênix | Leitura<small id="hsub">Seus livros, seu tempo</small></h1>
+</header>
+<main id="main"></main>
+<nav>
+  <button data-t="hoje" onclick="ir('hoje')"><b>📖</b>Hoje</button>
+  <button data-t="livros" onclick="ir('livros')"><b>📚</b>Livros</button>
+  <button data-t="notas" onclick="ir('notas')"><b>📝</b>Anotações</button>
+  <button data-t="rel" onclick="ir('rel')"><b>📊</b>Relatórios</button>
+  <button data-t="aj" onclick="ir('aj')"><b>⚙️</b>Ajustes</button>
+</nav>
+<div id="toast"></div>
+<script>
+"use strict";
+const VER="1.0";
+const KEY="fenix-leitura_dados";
+const KDRAFT="fenix-leitura_rascunho";
+const TIPOS=["Resumo","Ideia-chave","Citação","Dúvida","Para aplicar"];
+const STAT=["Quero ler","Lendo","Pausado","Concluído","Abandonado"];
+const FORM=["Físico","E-book","Audiolivro"];
+
+/* ---------- dados ---------- */
+let S=carregar();
+function carregar(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.livros))return d}catch(e){}return{v:1,livros:[],sessoes:[],notas:[],ativa:null}}
+function salvar(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast("Não foi possível salvar: armazenamento cheio")}}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const cmp=(a,b)=>String(a).localeCompare(String(b),"pt",{numeric:true,sensitivity:"base"});
+const $=s=>document.querySelector(s);
+const livro=id=>S.livros.find(l=>l.id===id);
+const capDe=(l,id)=>l&&id?l.caps.find(c=>c.id===id):null;
+const livrosOrd=()=>[...S.livros].sort((a,b)=>cmp(a.titulo,b.titulo));
+const capsOrd=l=>[...l.caps].sort((a,b)=>cmp(a.nome,b.nome));
+
+/* ---------- tempo ---------- */
+const pad=n=>String(n).padStart(2,"0");
+function dur(ms){const m=Math.round(ms/60000);if(m<60)return m+" min";return Math.floor(m/60)+"h"+pad(m%60)}
+function clock(ms){const s=Math.floor(ms/1000);return pad(Math.floor(s/3600))+":"+pad(Math.floor(s/60)%60)+":"+pad(s%60)}
+function dt(ts){const d=new Date(ts);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
+const sod=ts=>{const d=new Date(ts);d.setHours(0,0,0,0);return d.getTime()};
+function ago(ts){const n=Math.round((sod(Date.now())-sod(ts))/864e5);return n<=0?"hoje":n===1?"ontem":"há "+n+" dias"}
+const pausaTotal=(p,fim)=>p.reduce((t,x)=>t+((x.fim||fim)-x.ini),0);
+const ativaMs=()=>{const a=S.ativa;if(!a)return 0;const n=Date.now();return Math.max(0,n-a.ini-pausaTotal(a.pausas,n))};
+const pausada=()=>!!(S.ativa&&S.ativa.pausas.some(p=>!p.fim));
+
+function stats(l){
+  const ss=S.sessoes.filter(s=>s.livro===l.id).sort((a,b)=>a.ini-b.ini);
+  const liq=ss.reduce((t,s)=>t+s.liq,0);
+  const pag=ss.reduce((t,s)=>t+Math.max(0,s.pagFim-s.pagIni+1),0);
+  const dias=new Set(ss.map(s=>sod(s.ini))).size;
+  const last=ss[ss.length-1];
+  const fimT=(l.status==="Concluído"&&l.fim)?l.fim:Date.now();
+  const cal=ss.length?Math.round((sod(fimT)-sod(ss[0].ini))/864e5)+1:0;
+  const ult=last?last.pagFim:0;
+  const pagDia=dias?pag/dias:0;
+  let prev=null;
+  if(l.paginas&&pagDia>0&&ult<l.paginas&&l.status!=="Concluído")prev=Math.ceil((l.paginas-ult)/pagDia);
+  return{ss,liq,pag,dias,cal,ult,last,ph:liq>0?pag/(liq/36e5):0,mediaDia:dias?liq/dias:0,prev};
+}
+
+/* ---------- interface base ---------- */
+let tab="hoje",mods=[],qLiv="",fSt="Todos",qNot="",fTipo="Todos",allowExit=false;
+function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",2800)}
+const empty=t=>`<div class="empty">${esc(t)}</div>`;
+function ir(t){tab=t;render();window.scrollTo(0,0)}
+
+function openModal(title,fn,opt){
+  opt=opt||{};
+  const ov=document.createElement("div");ov.className="ov";
+  ov.innerHTML='<div class="md" role="dialog" aria-modal="true"><div class="mh"><h2></h2><button class="x" aria-label="Fechar">✕</button></div><div class="mb"></div></div>';
+  ov.querySelector("h2").textContent=title;
+  const m={el:ov,body:ov.querySelector(".mb"),fn:fn,sujo:false,live:!!opt.live,noGuard:!!opt.noGuard,onClose:opt.onClose,open:null};
+  m.refresh=()=>{m.body.innerHTML=m.fn()};
+  ov.querySelector(".x").onclick=()=>tryClose(m);
+  m.body.addEventListener("input",()=>{m.sujo=true});
+  m.body.addEventListener("toggle",e=>{if(e.target.open)m.open=e.target.dataset.k},true);
+  if(opt.z)ov.style.zIndex=opt.z;
+  m.refresh();
+  document.body.appendChild(ov);mods.push(m);
+  return m;
+}
+function tryClose(m){
+  if(m.sujo&&!m.noGuard){confirmDlg("Sair sem salvar o que você digitou?","Sair sem salvar",()=>fechar(m));return}
+  fechar(m);
+}
+function fechar(m){const i=mods.indexOf(m);if(i<0)return;mods.splice(i,1);m.el.remove();if(m.onClose)m.onClose()}
+function fecharTodos(){[...mods].forEach(fechar)}
+function confirmDlg(msg,ok,onOk,o){
+  o=o||{};
+  const m=openModal("Confirmar",()=>`<p>${esc(msg)}</p>${o.typed?`<label>Digite <b>${o.typed}</b> para confirmar<input id="cf_t" autocomplete="off"></label>`:""}<div class="row"><button class="btn sec" id="cf_n">Cancelar</button><button class="btn ${o.pri?"pri":"dan solid"}" id="cf_y">${esc(ok)}</button></div>`,{noGuard:true,z:40});
+  m.body.querySelector("#cf_n").onclick=()=>fechar(m);
+  m.body.querySelector("#cf_y").onclick=()=>{
+    if(o.typed&&m.body.querySelector("#cf_t").value.trim()!==o.typed){toast("Digite "+o.typed+" exatamente");return}
+    fechar(m);onOk();
+  };
+}
+function atualizar(){salvar();mods.forEach(m=>{if(m.live)m.refresh()});render()}
+
+/* ---------- telas ---------- */
+function render(){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+  const f={hoje:rHoje,livros:rLivros,notas:rNotas,rel:rRel,aj:rAj}[tab];
+  $("#main").innerHTML=f()+`<div class="rod">Fênix | Leitura v${VER} · Fênix Soluções Tecnológicas<br><a href="#" onclick="sobre();return false">Sobre</a></div>`;
+  if(tab==="livros")listLivros();
+  if(tab==="notas")listNotas();
+}
+
+function rHoje(){
+  let h="";const a=S.ativa;
+  if(a){
+    const l=livro(a.livro),c=capDe(l,a.cap);
+    h+=`<div class="card ativa"><div class="mut">Lendo agora${pausada()?" · ⏸ PAUSADO":""}</div><h2>${esc(l.titulo)}</h2><div>${c?esc(c.nome):"Sem capítulo"} · começou na pág. ${a.pagIni}</div><div class="timer" id="tm">${clock(ativaMs())}</div>
+    <div class="row"><button class="btn sec" onclick="pausar()">${pausada()?"▶ Retomar":"⏸ Pausar"}</button><button class="btn pri" onclick="encerrar()">■ Encerrar</button></div>
+    <div class="row"><button class="btn ghost" onclick="notaAtiva()">＋ Anotação</button><button class="btn dan" onclick="abortar()">Abortar</button></div></div>`;
+  }else h+=`<button class="btn pri big" onclick="iniciar()">📖 Iniciar leitura</button>`;
+  const pend=pendencias();
+  if(pend.length)h+=`<div class="card" onclick="ir('notas')"><span class="chip warn">⏳ ${pend.length} resumo(s) pendente(s)</span> <span class="mut">Toque para ver</span></div>`;
+  const hoje=S.sessoes.filter(s=>sod(s.ini)===sod(Date.now()));
+  const tHoje=hoje.reduce((t,s)=>t+s.liq,0)+(a&&sod(a.ini)===sod(Date.now())?ativaMs():0);
+  h+=`<div class="card rowb"><span>Lido hoje</span><b>${dur(tHoje)} · ${hoje.reduce((t,s)=>t+Math.max(0,s.pagFim-s.pagIni+1),0)} pág.</b></div>`;
+  h+="<h3>Onde parei</h3>";
+  const ls=livrosOrd().filter(l=>l.status==="Lendo"||l.status==="Pausado");
+  if(!ls.length)h+=empty("Nenhum livro em leitura. Cadastre um na aba Livros.");
+  ls.forEach(l=>{
+    const st=stats(l),p=l.paginas?Math.min(100,Math.round(st.ult/l.paginas*100)):0;
+    const cn=st.last&&st.last.capFimNome?st.last.capFimNome:"";
+    h+=`<div class="card"><div class="rowb"><b>${esc(l.titulo)}</b><span class="chip">${l.status}</span></div><div class="mut">${esc(l.autor||"")}</div>
+    <div>${st.ss.length?`${cn?esc(cn)+" · ":""}pág. ${st.ult}${l.paginas?" de "+l.paginas:""} · ${ago(st.last.fim)}`:"Ainda não começou"}</div>
+    ${l.paginas?`<div class="bar"><i style="width:${p}%"></i></div>`:""}
+    <div class="row"><button class="btn pri" ${a?"disabled":""} onclick="iniciar('${l.id}')">▶ Retomar</button><button class="btn ghost" onclick="abrirLivro('${l.id}')">Abrir</button></div></div>`;
+  });
+  return h;
+}
+
+function rLivros(){
+  return `<input id="qlv" placeholder="🔍 Buscar título, autor ou etiqueta" value="${esc(qLiv)}" oninput="qLiv=this.value;listLivros()">
+  <div class="chips" style="margin-top:8px">${["Todos",...STAT].map(s=>`<button class="${fSt===s?"on":""}" onclick="fSt='${s}';render()">${s}</button>`).join("")}</div>
+  <div id="lvl"></div><button class="fab" onclick="formLivro()">＋ Livro</button>`;
+}
+function listLivros(){
+  const q=qLiv.trim().toLowerCase();
+  const ls=livrosOrd().filter(l=>(fSt==="Todos"||l.status===fSt)&&(!q||(l.titulo+" "+(l.autor||"")+" "+(l.tags||"")).toLowerCase().includes(q)));
+  $("#lvl").innerHTML=ls.length?ls.map(l=>{
+    const st=stats(l),p=l.paginas?Math.min(100,Math.round(st.ult/l.paginas*100)):0;
+    return `<div class="card" onclick="abrirLivro('${l.id}')"><div class="rowb"><b>${esc(l.titulo)}</b><span class="chip ${l.status==="Concluído"?"ok":""}">${l.status}</span></div>
+    <div class="mut">${esc(l.autor||"Autor não informado")} · ${l.formato}${l.paginas?" · "+l.paginas+" pág.":""}${l.nota?" · "+"★".repeat(l.nota):""}</div>
+    ${l.paginas&&st.ss.length?`<div class="bar"><i style="width:${p}%"></i></div>`:""}</div>`;
+  }).join(""):empty(S.livros.length?"Nenhum livro encontrado.":"Nenhum livro cadastrado ainda. Toque em ＋ Livro.");
+}
+
+function pendencias(){
+  const r=[];
+  livrosOrd().forEach(l=>capsOrd(l).forEach(c=>{if(c.concluido&&c.resumoPend)r.push({l,c})}));
+  return r;
+}
+function rNotas(){
+  const pend=pendencias();
+  let h=`<input id="qnt" placeholder="🔍 Buscar nas anotações" value="${esc(qNot)}" oninput="qNot=this.value;listNotas()">
+  <div class="chips" style="margin-top:8px">${["Todos",...TIPOS].map(s=>`<button class="${fTipo===s?"on":""}" onclick="fTipo='${s}';render()">${s}</button>`).join("")}</div>`;
+  if(pend.length){
+    h+=`<h3>Resumos pendentes</h3>`;
+    pend.forEach(p=>{h+=`<div class="card rowb"><div><b>${esc(p.c.nome)}</b><div class="mut">${esc(p.l.titulo)}</div></div><button class="btn sm pri" onclick="novaNota('${p.l.id}','${p.c.id}',null,{tipo:'Resumo'})">Fazer</button></div>`});
+  }
+  h+=`<h3>Anotações</h3><div id="ntl"></div><button class="fab" onclick="novaNota()">＋ Anotação</button>`;
+  return h;
+}
+function listNotas(){
+  const q=qNot.trim().toLowerCase();
+  const ns=S.notas.filter(n=>livro(n.livro)&&(fTipo==="Todos"||n.tipo===fTipo)&&(!q||n.texto.toLowerCase().includes(q)||livro(n.livro).titulo.toLowerCase().includes(q)))
+    .sort((a,b)=>cmp(livro(a.livro).titulo,livro(b.livro).titulo)||cmp((capDe(livro(a.livro),a.cap)||{nome:""}).nome,(capDe(livro(b.livro),b.cap)||{nome:""}).nome)||((a.pag||0)-(b.pag||0)));
+  $("#ntl").innerHTML=ns.length?ns.map(n=>itemNota(n,true)).join(""):empty("Nenhuma anotação encontrada.");
+}
+function itemNota(n,comLivro){
+  const l=livro(n.livro),c=capDe(l,n.cap);
+  return `<div class="card"><div class="rowb"><span class="chip gold">${n.tipo}</span><span class="mut">${comLivro?esc(l.titulo)+" · ":""}${c?esc(c.nome):""}${n.pag?" · pág. "+n.pag:""}</span></div>
+  <div style="white-space:pre-wrap;margin-top:6px">${esc(n.texto)}</div>
+  <div class="acts"><button class="btn sm ghost" onclick="novaNota('${n.livro}',null,null,{id:'${n.id}'})">✎ Editar</button><button class="btn sm dan" onclick="excNota('${n.id}')">🗑 Excluir</button></div></div>`;
+}
+
+function rRel(){
+  const now=Date.now(),a=S.ativa;
+  const per=d=>S.sessoes.filter(s=>s.ini>=sod(now)-d*864e5).reduce((t,s)=>t+s.liq,0)+(a&&a.ini>=sod(now)-d*864e5?ativaMs():0);
+  const tot=S.sessoes.reduce((t,s)=>t+s.liq,0)+(a?ativaMs():0);
+  const pags=S.sessoes.reduce((t,s)=>t+Math.max(0,s.pagFim-s.pagIni+1),0);
+  const cont=s=>S.livros.filter(l=>l.status===s).length;
+  let h=`<div class="grid"><div class="st"><b>${dur(per(0))}</b><span>Hoje</span></div><div class="st"><b>${dur(per(6))}</b><span>Últimos 7 dias</span></div><div class="st"><b>${dur(per(29))}</b><span>Últimos 30 dias</span></div><div class="st"><b>${dur(tot)}</b><span>Total de leitura líquida</span></div><div class="st"><b>${pags}</b><span>Páginas lidas</span></div><div class="st"><b>${cont("Concluído")} / ${S.livros.length}</b><span>Livros concluídos</span></div></div>`;
+  h+=`<h3>Por livro</h3>`;
+  const ls=livrosOrd().filter(l=>S.sessoes.some(s=>s.livro===l.id));
+  if(!ls.length)return h+empty("Os números aparecem depois da primeira leitura.");
+  ls.forEach(l=>{
+    const st=stats(l);
+    h+=`<div class="card"><div class="rowb"><b>${esc(l.titulo)}</b><span class="chip ${l.status==="Concluído"?"ok":""}">${l.status}</span></div>
+    <div class="grid" style="margin-top:8px"><div class="st"><b>${dur(st.liq)}</b><span>Tempo líquido</span></div><div class="st"><b>${st.cal} dia(s)</b><span>Calendário (início → ${l.status==="Concluído"?"fim":"hoje"})</span></div><div class="st"><b>${dur(st.mediaDia)}</b><span>Média por dia lido (${st.dias} dia[s])</span></div><div class="st"><b>${st.ph?Math.round(st.ph):"—"}</b><span>Páginas por hora</span></div></div></div>`;
+  });
+  return h;
+}
+
+function rAj(){
+  return `<div class="card"><b>Sobre o app</b><div class="row"><button class="btn ghost" onclick="manual()">📘 Manual</button><button class="btn ghost" onclick="changelog()">🕘 Changelog</button></div></div>
+  <div class="card"><b>Backup</b><div class="mut">Na v1.0 os dados ficam neste aparelho. Faça backup de vez em quando.</div>
+  <div class="row"><button class="btn ghost" onclick="exportar()">⬇ Exportar</button><button class="btn ghost" onclick="$('#imp').click()">⬆ Importar</button></div>
+  <input id="imp" type="file" accept="application/json,.json" hidden onchange="importar(this)"></div>
+  <div class="card"><b>Zona de perigo</b><div class="row"><button class="btn dan" onclick="apagarTudo()">Apagar todos os dados</button></div></div>`;
+}
+
+/* ---------- livros ---------- */
+function formLivro(id){
+  const l=id?livro(id):{titulo:"",autor:"",paginas:"",formato:"Físico",status:"Quero ler",tags:"",nota:0,emprestado:""};
+  openModal(id?"Editar livro":"Novo livro",()=>`
+  <label>Título*<input id="f_t" value="${esc(l.titulo)}"></label>
+  <label>Autor<input id="f_a" value="${esc(l.autor||"")}"></label>
+  <label>Quantidade de páginas<input id="f_p" type="number" inputmode="numeric" min="1" value="${l.paginas||""}"></label>
+  <label>Formato<select id="f_f">${FORM.map(x=>`<option ${x===l.formato?"selected":""}>${x}</option>`).join("")}</select></label>
+  <label>Situação<select id="f_s">${STAT.map(x=>`<option ${x===l.status?"selected":""}>${x}</option>`).join("")}</select></label>
+  <label>Etiquetas (separadas por vírgula)<input id="f_g" value="${esc(l.tags||"")}"></label>
+  <label>Nota<select id="f_n">${[0,1,2,3,4,5].map(x=>`<option value="${x}" ${x===(l.nota||0)?"selected":""}>${x?"★".repeat(x):"Sem nota"}</option>`).join("")}</select></label>
+  <label>Emprestado a<input id="f_e" value="${esc(l.emprestado||"")}"></label>
+  <button class="btn pri" style="width:100%" onclick="salvarLivro('${id||""}')">Salvar</button>`);
+}
+function salvarLivro(id){
+  const t=$("#f_t").value.trim();if(!t){toast("Informe o título");return}
+  const p=parseInt($("#f_p").value,10)||0;
+  if(id){
+    const l=livro(id);
+    if(p&&stats(l).ult>p){toast("O livro tem sessões além dessa página. Confira o total.");return}
+    Object.assign(l,{titulo:t,autor:$("#f_a").value.trim(),paginas:p,formato:$("#f_f").value,tags:$("#f_g").value.trim(),nota:+$("#f_n").value,emprestado:$("#f_e").value.trim()});
+    setStatus(l,$("#f_s").value);
+  }else{
+    if(S.livros.some(x=>cmp(x.titulo,t)===0&&cmp(x.autor||"",$("#f_a").value.trim())===0)){toast("Esse livro já está cadastrado");return}
+    const l={id:uid(),titulo:t,autor:$("#f_a").value.trim(),paginas:p,formato:$("#f_f").value,status:"Quero ler",tags:$("#f_g").value.trim(),nota:+$("#f_n").value,emprestado:$("#f_e").value.trim(),caps:[],criado:Date.now(),fim:null};
+    S.livros.push(l);setStatus(l,$("#f_s").value);
+  }
+  const m=mods[mods.length-1];m.sujo=false;fechar(m);atualizar();toast("Livro salvo");
+}
+function setStatus(l,s){
+  if(s==="Concluído"&&l.status!=="Concluído")l.fim=Date.now();
+  if(s!=="Concluído")l.fim=null;
+  l.status=s;
+}
+function abrirLivro(id){
+  openModal("Livro",()=>{
+    const l=livro(id);if(!l)return "";
+    const st=stats(l),p=l.paginas?Math.min(100,Math.round(st.ult/l.paginas*100)):0;
+    const caps=capsOrd(l),ns=S.notas.filter(n=>n.livro===id).sort((a,b)=>cmp((capDe(l,a.cap)||{nome:""}).nome,(capDe(l,b.cap)||{nome:""}).nome)||((a.pag||0)-(b.pag||0)));
+    const ssv=[...st.ss].reverse();
+    return `<div class="rowb"><div><b style="font-size:18px">${esc(l.titulo)}</b><div class="mut">${esc(l.autor||"")} · ${l.formato}${l.paginas?" · "+l.paginas+" pág.":""}</div></div><span class="chip ${l.status==="Concluído"?"ok":""}">${l.status}</span></div>
+    ${l.tags?`<div class="mut">🏷 ${esc(l.tags)}</div>`:""}${l.nota?`<div>${"★".repeat(l.nota)}</div>`:""}${l.emprestado?`<div class="mut">Emprestado a ${esc(l.emprestado)}</div>`:""}
+    ${l.paginas?`<div class="bar"><i style="width:${p}%"></i></div><div class="mut">Última página lida: ${st.ult} de ${l.paginas} (${p}%)</div>`:`<div class="mut">Última página lida: ${st.ult}</div>`}
+    <div class="grid" style="margin-top:10px"><div class="st"><b>${dur(st.liq)}</b><span>Tempo líquido</span></div><div class="st"><b>${st.cal} dia(s)</b><span>Calendário</span></div><div class="st"><b>${st.dias?dur(st.mediaDia):"—"}</b><span>Média por dia lido</span></div><div class="st"><b>${st.ph?Math.round(st.ph)+" pág./h":"—"}</b><span>Ritmo</span></div></div>
+    ${st.prev?`<div class="mut" style="margin-top:6px">Previsão: cerca de ${st.prev} dia(s) lendo no ritmo atual.</div>`:""}
+    <div class="row"><button class="btn pri" ${S.ativa?"disabled":""} onclick="iniciar('${id}')">▶ Ler</button><button class="btn ghost" onclick="novaNota('${id}')">＋ Anotação</button></div>
+    <div class="row"><button class="btn ghost" onclick="formLivro('${id}')">✎ Editar</button>${l.status!=="Concluído"?`<button class="btn ghost" onclick="concluirLivro('${id}')">✔ Concluir</button>`:""}<button class="btn dan" onclick="excLivro('${id}')">🗑 Excluir</button></div>
+    <details name="acc" data-k="c" ${this_open("c")}><summary>Capítulos (${caps.length})</summary><div>
+      ${caps.map(c=>`<div class="it"><div class="rowb"><b>${esc(c.nome)}</b><span>${c.concluido?`<span class="chip ok">✔ lido</span>`:""} ${c.concluido&&c.resumoPend?`<span class="chip warn">resumo pendente</span>`:""}</span></div><div class="mut">${c.pag?"Começa na pág. "+c.pag:"Sem página inicial"}</div>
+      <div class="acts"><button class="btn sm ghost" onclick="novaNota('${id}','${c.id}',null,{tipo:'Resumo'})">📝 Resumo</button><button class="btn sm ghost" onclick="formCap('${id}','${c.id}')">✎</button><button class="btn sm dan" onclick="excCap('${id}','${c.id}')">🗑</button></div></div>`).join("")||`<div class="mut">Nenhum capítulo cadastrado.</div>`}
+      <div class="row"><button class="btn ghost" onclick="addCaps('${id}')">＋ Adicionar capítulos</button></div></div></details>
+    <details name="acc" data-k="s" ${this_open("s")}><summary>Sessões de leitura (${ssv.length})</summary><div>
+      ${ssv.map(s=>`<div class="it"><div class="rowb"><b>${dt(s.ini)}</b><b>${dur(s.liq)}</b></div><div class="mut">${esc(s.capNome||"Sem capítulo")}${s.capFimNome&&s.capFimNome!==s.capNome?" → "+esc(s.capFimNome):""} · pág. ${s.pagIni} → ${s.pagFim}${pausaTotal(s.pausas,s.fim)?" · pausas "+dur(pausaTotal(s.pausas,s.fim)):""}</div><div class="acts"><button class="btn sm dan" onclick="excSessao('${s.id}')">🗑 Excluir</button></div></div>`).join("")||`<div class="mut">Nenhuma sessão ainda.</div>`}</div></details>
+    <details name="acc" data-k="n" ${this_open("n")}><summary>Anotações (${ns.length})</summary><div>${ns.map(n=>itemNota(n,false)).join("")||`<div class="mut">Nenhuma anotação ainda.</div>`}</div></details>`;
+    function this_open(k){const m=mods.find(x=>x.livroId===id);return m&&m.open===k?"open":""}
+  },{live:true,noGuard:true}).livroId=id;
+}
+function concluirLivro(id){
+  const l=livro(id);
+  confirmDlg(`Marcar "${l.titulo}" como concluído?`,"Concluir",()=>{setStatus(l,"Concluído");atualizar();toast("Livro concluído 🎉")},{pri:true});
+}
+function excLivro(id){
+  const l=livro(id);
+  if(S.ativa&&S.ativa.livro===id){toast("Encerre a leitura em andamento antes de excluir");return}
+  confirmDlg(`Tem certeza que quer excluir "${l.titulo}"? Capítulos, sessões e anotações deste livro também serão apagados.`,"Excluir",()=>{
+    S.livros=S.livros.filter(x=>x.id!==id);S.sessoes=S.sessoes.filter(s=>s.livro!==id);S.notas=S.notas.filter(n=>n.livro!==id);
+    mods.filter(m=>m.livroId===id).forEach(fechar);atualizar();toast("Livro excluído");
+  });
+}
+
+/* ---------- capítulos ---------- */
+function addCaps(id){
+  openModal("Adicionar capítulos",()=>`<label>Um capítulo por linha. Para informar a página inicial, use ponto e vírgula.<textarea id="ac_t" placeholder="Capítulo 1 ; 9&#10;Capítulo 2 ; 31&#10;Capítulo 3"></textarea></label><button class="btn pri" style="width:100%" onclick="confAddCaps('${id}')">Adicionar</button>`);
+}
+function confAddCaps(id){
+  const l=livro(id);let n=0;
+  $("#ac_t").value.split("\n").forEach(ln=>{
+    const [nome,pg]=ln.split(";").map(x=>x.trim());
+    if(!nome||l.caps.some(c=>cmp(c.nome,nome)===0))return;
+    l.caps.push({id:uid(),nome,pag:parseInt(pg,10)||null,concluido:null,resumoPend:false});n++;
+  });
+  if(!n){toast("Nenhum capítulo novo para adicionar");return}
+  const m=mods[mods.length-1];m.sujo=false;fechar(m);atualizar();toast(n+" capítulo(s) adicionado(s)");
+}
+function formCap(lid,cid){
+  const c=capDe(livro(lid),cid);
+  openModal("Editar capítulo",()=>`<label>Nome*<input id="fc_n" value="${esc(c.nome)}"></label><label>Página inicial<input id="fc_p" type="number" inputmode="numeric" value="${c.pag||""}"></label>
+  <div class="ck"><input type="checkbox" id="fc_c" ${c.concluido?"checked":""}><label for="fc_c" style="margin:0;color:inherit">Capítulo concluído</label></div>
+  <button class="btn pri" style="width:100%" onclick="confCap('${lid}','${cid}')">Salvar</button>`);
+}
+function confCap(lid,cid){
+  const l=livro(lid),c=capDe(l,cid),n=$("#fc_n").value.trim();
+  if(!n){toast("Informe o nome");return}
+  if(l.caps.some(x=>x.id!==cid&&cmp(x.nome,n)===0)){toast("Já existe um capítulo com esse nome");return}
+  c.nome=n;c.pag=parseInt($("#fc_p").value,10)||null;
+  const ck=$("#fc_c").checked;
+  if(ck&&!c.concluido){c.concluido=Date.now();c.resumoPend=true}
+  if(!ck){c.concluido=null;c.resumoPend=false}
+  const m=mods[mods.length-1];m.sujo=false;fechar(m);atualizar();
+}
+function excCap(lid,cid){
+  const l=livro(lid),c=capDe(l,cid);
+  if(S.ativa&&S.ativa.cap===cid){toast("Esse capítulo está em leitura agora");return}
+  confirmDlg(`Tem certeza que quer excluir o capítulo "${c.nome}"? As anotações ficam no livro, sem capítulo.`,"Excluir",()=>{
+    l.caps=l.caps.filter(x=>x.id!==cid);S.notas.forEach(n=>{if(n.cap===cid)n.cap=null});atualizar();
+  });
+}
+function excSessao(sid){
+  const s=S.sessoes.find(x=>x.id===sid);
+  confirmDlg(`Tem certeza que quer excluir a sessão de ${dt(s.ini)} (${dur(s.liq)})?`,"Excluir",()=>{S.sessoes=S.sessoes.filter(x=>x.id!==sid);atualizar()});
+}
+
+/* ---------- sessão de leitura ---------- */
+function iniciar(pre){
+  if(S.ativa){toast("Já existe uma leitura em andamento. Encerre-a antes.");return}
+  const ls=livrosOrd().filter(l=>l.status!=="Abandonado");
+  if(!ls.length){toast("Cadastre um livro primeiro");ir("livros");return}
+  openModal("Iniciar leitura",()=>`
+  <label>Livro<select id="i_l" onchange="iniLivro()">${ls.map(l=>`<option value="${l.id}" ${l.id===pre?"selected":""}>${esc(l.titulo)}${l.status==="Concluído"?" (concluído)":""}</option>`).join("")}</select></label>
+  <label>Capítulo<select id="i_c" onchange="iniCap()"></select></label>
+  <div id="i_nc" hidden><label>Nome do novo capítulo*<input id="i_cn"></label></div>
+  <label>Página em que vou começar<input id="i_p" type="number" inputmode="numeric" min="1"></label>
+  <div class="mut" id="i_info"></div>
+  <button class="btn pri" style="width:100%" onclick="confIniciar()">▶ Começar</button>`);
+  iniLivro();
+}
+function iniLivro(){
+  const l=livro($("#i_l").value),st=stats(l),caps=capsOrd(l);
+  let def="";
+  if(st.last&&st.last.capFim&&capDe(l,st.last.capFim)&&!capDe(l,st.last.capFim).concluido)def=st.last.capFim;
+  else{const n=caps.find(c=>!c.concluido);def=n?n.id:(caps.length?"":"__novo")}
+  $("#i_c").innerHTML=caps.map(c=>`<option value="${c.id}">${esc(c.nome)}${c.concluido?" ✔":""}</option>`).join("")+`<option value="">(sem capítulo)</option><option value="__novo">＋ Novo capítulo…</option>`;
+  $("#i_c").value=def;
+  $("#i_p").value=st.ult?st.ult+1:1;
+  $("#i_info").textContent=st.ss.length?`Última página lida: ${st.ult}${l.paginas?" de "+l.paginas:""}.`:(l.paginas?`O livro tem ${l.paginas} páginas.`:"");
+  iniCap();
+}
+function iniCap(){$("#i_nc").hidden=$("#i_c").value!=="__novo"}
+function confIniciar(){
+  const l=livro($("#i_l").value),pi=parseInt($("#i_p").value,10);
+  if(!pi||pi<1){toast("Informe a página inicial");return}
+  if(l.paginas&&pi>l.paginas){toast("A página inicial passa do total do livro");return}
+  let cap=$("#i_c").value||null;
+  if(cap==="__novo"){
+    const n=$("#i_cn").value.trim();if(!n){toast("Informe o nome do capítulo");return}
+    const ex=l.caps.find(c=>cmp(c.nome,n)===0);
+    if(ex)cap=ex.id;else{cap=uid();l.caps.push({id:cap,nome:n,pag:pi,concluido:null,resumoPend:false})}
+  }
+  S.ativa={livro:l.id,cap:cap,pagIni:pi,ini:Date.now(),pausas:[]};
+  if(l.status!=="Lendo")setStatus(l,"Lendo");
+  const m=mods[mods.length-1];m.sujo=false;fechar(m);tab="hoje";atualizar();toast("Boa leitura! 📖");
+}
+function pausar(){
+  const a=S.ativa,u=a.pausas[a.pausas.length-1];
+  if(u&&!u.fim)u.fim=Date.now();else a.pausas.push({ini:Date.now()});
+  atualizar();
+}
+function abortar(){
+  confirmDlg("Tem certeza que quer abortar esta leitura? O tempo desta sessão será descartado.","Abortar leitura",()=>{S.ativa=null;atualizar();toast("Leitura abortada")});
+}
+function encerrar(){
+  const a=S.ativa,l=livro(a.livro),caps=capsOrd(l);
+  openModal("Encerrar leitura",()=>`
+  <div class="mut">Tempo líquido desta sessão: <b>${dur(ativaMs())}</b></div>
+  <label>Última página lida<input id="e_p" type="number" inputmode="numeric" value="${a.pagIni}" oninput="encPag()"></label>
+  <label>Capítulo em que parei<select id="e_c" onchange="$('#e_nc').hidden=this.value!=='__novo'">${caps.map(c=>`<option value="${c.id}" ${c.id===a.cap?"selected":""}>${esc(c.nome)}</option>`).join("")}<option value="" ${!a.cap?"selected":""}>(sem capítulo)</option><option value="__novo">＋ Outro capítulo novo…</option></select></label>
+  <div id="e_nc" hidden><label>Nome do novo capítulo*<input id="e_cn"></label></div>
+  <div class="ck"><input type="checkbox" id="e_fc"><label for="e_fc" style="margin:0;color:inherit">Terminei este capítulo</label></div>
+  <div class="ck"><input type="checkbox" id="e_fl"><label for="e_fl" style="margin:0;color:inherit">Terminei o livro</label></div>
+  <button class="btn pri" style="width:100%" onclick="confEncerrar()">Salvar e encerrar</button>`);
+}
+function encPag(){const l=livro(S.ativa.livro),v=parseInt($("#e_p").value,10);if(l.paginas&&v>=l.paginas)$("#e_fl").checked=true}
+function confEncerrar(){
+  const a=S.ativa,l=livro(a.livro),pf=parseInt($("#e_p").value,10);
+  if(isNaN(pf)||pf<a.pagIni-1){toast("A última página lida não pode ser menor que a inicial");return}
+  if(l.paginas&&pf>l.paginas){toast("A página passa do total do livro ("+l.paginas+")");return}
+  let capFim=$("#e_c").value||null;
+  if(capFim==="__novo"){
+    const n=$("#e_cn").value.trim();if(!n){toast("Informe o nome do capítulo");return}
+    const ex=l.caps.find(c=>cmp(c.nome,n)===0);
+    if(ex)capFim=ex.id;else{capFim=uid();l.caps.push({id:capFim,nome:n,pag:null,concluido:null,resumoPend:false})}
+  }
+  const now=Date.now(),u=a.pausas[a.pausas.length-1];
+  if(u&&!u.fim)u.fim=now;
+  const liq=Math.max(0,(now-a.ini)-pausaTotal(a.pausas,now));
+  const c0=capDe(l,a.cap),c1=capDe(l,capFim);
+  S.sessoes.push({id:uid(),livro:l.id,cap:a.cap,capNome:c0?c0.nome:"",capFim:capFim,capFimNome:c1?c1.nome:"",pagIni:a.pagIni,pagFim:pf,ini:a.ini,fim:now,pausas:a.pausas,liq:liq});
+  const fila=[],marca=c=>{if(c&&!c.concluido){c.concluido=now;c.resumoPend=true;fila.push(c.id)}};
+  const ord=capsOrd(l),i0=ord.findIndex(c=>c.id===a.cap),i1=ord.findIndex(c=>c.id===capFim);
+  if(i0>=0&&i1>i0)for(let i=i0;i<i1;i++)marca(ord[i]);
+  if($("#e_fc").checked)marca(c1);
+  if($("#e_fl").checked)setStatus(l,"Concluído");
+  S.ativa=null;
+  const m=mods[mods.length-1];m.sujo=false;fechar(m);
+  atualizar();toast("Sessão salva: "+dur(liq));
+  askResumo(fila,l.id);
+}
+function askResumo(fila,lid){
+  if(!fila.length)return;
+  const cid=fila[0],resto=fila.slice(1),l=livro(lid),c=capDe(l,cid);
+  const m=openModal("Capítulo concluído 🎉",()=>`<p><b>${esc(c.nome)}</b> — ${esc(l.titulo)}</p><p>Quer fazer o resumo agora?</p>
+  <div class="row"><button class="btn pri" id="r_a">Agora</button><button class="btn sec" id="r_d">Depois</button><button class="btn ghost" id="r_p">Pular</button></div><div class="mut" style="margin-top:8px">"Depois" deixa uma pendência na aba Anotações. "Pular" dispensa o resumo deste capítulo.</div>`,{noGuard:true,z:30});
+  m.body.querySelector("#r_a").onclick=()=>{m.onClose=null;fechar(m);novaNota(lid,cid,null,{tipo:"Resumo",depois:()=>askResumo(resto,lid)})};
+  m.body.querySelector("#r_d").onclick=()=>{m.onClose=null;fechar(m);askResumo(resto,lid)};
+  m.body.querySelector("#r_p").onclick=()=>{m.onClose=null;fechar(m);c.resumoPend=false;atualizar();askResumo(resto,lid)};
+  m.onClose=()=>askResumo(resto,lid);
+}
+function notaAtiva(){const a=S.ativa;novaNota(a.livro,a.cap,null)}
+
+/* ---------- anotações ---------- */
+function novaNota(lid,cid,pag,o){
+  o=o||{};
+  if(!S.livros.length){toast("Cadastre um livro primeiro");return}
+  const ex=o.id?S.notas.find(n=>n.id===o.id):null;
+  if(ex){lid=ex.livro;cid=ex.cap;pag=ex.pag}
+  let d=null;
+  if(!ex){try{d=JSON.parse(localStorage.getItem(KDRAFT))}catch(e){}if(d&&(!d.texto||(lid&&d.livro!==lid)))d=null}
+  const base=ex||d||{livro:lid||livrosOrd()[0].id,cap:cid||null,tipo:o.tipo||"Resumo",pag:pag||"",texto:""};
+  if(!ex&&!d){base.livro=lid||(S.ativa?S.ativa.livro:livrosOrd()[0].id);base.cap=cid||null}
+  const ls=livrosOrd();
+  const m=openModal(ex?"Editar anotação":"Nova anotação",()=>`
+  <label>Livro<select id="n_l" onchange="notaCaps()">${ls.map(l=>`<option value="${l.id}" ${l.id===base.livro?"selected":""}>${esc(l.titulo)}</option>`).join("")}</select></label>
+  <label>Tipo<select id="n_t">${TIPOS.map(t=>`<option ${t===(o.tipo&&!ex?o.tipo:base.tipo)?"selected":""}>${t}</option>`).join("")}</select></label>
+  <label>Capítulo<select id="n_c"></select></label>
+  <label>Página<input id="n_p" type="number" inputmode="numeric" value="${base.pag||""}"></label>
+  <label>Texto*<textarea id="n_x" style="min-height:200px">${esc(base.texto)}</textarea></label>
+  ${("SpeechRecognition" in window||"webkitSpeechRecognition" in window)?`<button class="btn ghost" id="n_v" style="width:100%;margin-bottom:10px" onclick="ditar()">🎤 Ditar</button>`:""}
+  <button class="btn pri" style="width:100%" onclick="salvarNota('${ex?ex.id:""}')">Salvar</button>`);
+  m.depois=o.depois;
+  notaCaps(base.cap);
+  if(d&&!ex){toast("Rascunho recuperado");m.sujo=true}
+  m.body.addEventListener("input",()=>{clearTimeout(novaNota.t);novaNota.t=setTimeout(()=>{if(ex)return;try{localStorage.setItem(KDRAFT,JSON.stringify({livro:$("#n_l").value,cap:$("#n_c").value||null,tipo:$("#n_t").value,pag:$("#n_p").value,texto:$("#n_x").value}))}catch(e){}},400)});
+  if(o.depois)m.onClose=()=>{if(m.depois){const f=m.depois;m.depois=null;f()}};
+}
+function notaCaps(sel){
+  const l=livro($("#n_l").value);
+  $("#n_c").innerHTML=`<option value="">(sem capítulo)</option>`+capsOrd(l).map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
+  if(sel&&capDe(l,sel))$("#n_c").value=sel;
+}
+let rec=null;
+function ditar(){
+  const R=window.SpeechRecognition||window.webkitSpeechRecognition,b=$("#n_v");
+  if(rec){rec.stop();return}
+  rec=new R();rec.lang="pt-BR";rec.continuous=true;rec.interimResults=false;
+  rec.onresult=e=>{let t="";for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)t+=e.results[i][0].transcript;if(t){const x=$("#n_x");x.value+=(x.value&&!/\s$/.test(x.value)?" ":"")+t.trim();x.dispatchEvent(new Event("input",{bubbles:true}))}};
+  rec.onend=()=>{rec=null;const bb=$("#n_v");if(bb)bb.textContent="🎤 Ditar"};
+  rec.onerror=()=>{toast("Não consegui usar o microfone")};
+  rec.start();b.textContent="⏹ Parar ditado";
+}
+function salvarNota(id){
+  const tx=$("#n_x").value.trim();if(!tx){toast("Escreva o texto da anotação");return}
+  const lid=$("#n_l").value,cap=$("#n_c").value||null,tipo=$("#n_t").value,pag=parseInt($("#n_p").value,10)||null;
+  if(rec)rec.stop();
+  if(id){Object.assign(S.notas.find(n=>n.id===id),{livro:lid,cap,tipo,pag,texto:tx})}
+  else S.notas.push({id:uid(),livro:lid,cap,tipo,pag,texto:tx,ts:Date.now()});
+  const c=capDe(livro(lid),cap);if(c&&tipo==="Resumo")c.resumoPend=false;
+  try{localStorage.removeItem(KDRAFT)}catch(e){}
+  const m=mods[mods.length-1];m.sujo=false;const dep=m.depois;m.depois=null;fechar(m);atualizar();toast("Anotação salva");
+  if(dep)dep();
+}
+function excNota(id){
+  const n=S.notas.find(x=>x.id===id);
+  confirmDlg(`Tem certeza que quer excluir esta anotação (${n.tipo})?`,"Excluir",()=>{S.notas=S.notas.filter(x=>x.id!==id);atualizar()});
+}
+
+/* ---------- ajustes ---------- */
+function exportar(){
+  const b=new Blob([JSON.stringify(S,null,1)],{type:"application/json"});
+  const a=document.createElement("a");const d=new Date();
+  a.href=URL.createObjectURL(b);a.download=`Fenix_Leitura_backup_${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}.json`;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);toast("Backup gerado");
+}
+function importar(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);
+      if(!d||!Array.isArray(d.livros)||!Array.isArray(d.sessoes)||!Array.isArray(d.notas))throw 0;
+      confirmDlg("Importar este backup vai substituir todos os dados atuais. Continuar?","Importar",()=>{S=d;S.ativa=S.ativa||null;fecharTodos();atualizar();toast("Backup importado")});
+    }catch(e){toast("Arquivo de backup inválido")}
+    inp.value="";
+  };
+  r.readAsText(f);
+}
+function apagarTudo(){
+  confirmDlg("Isto apaga TODOS os livros, sessões e anotações deste aparelho. Não dá para desfazer.","Apagar tudo",()=>{S={v:1,livros:[],sessoes:[],notas:[],ativa:null};try{localStorage.removeItem(KDRAFT)}catch(e){}fecharTodos();atualizar();toast("Dados apagados")},{typed:"APAGAR"});
+}
+function sobre(){
+  openModal("Sobre",()=>`<h2>Fênix | Leitura</h2><p>Versão ${VER}<br>Fênix Soluções Tecnológicas</p><p>Catálogo de livros, cronômetro de leitura com pausa, anotações e resumos por capítulo.</p><div class="row"><button class="btn ghost" onclick="manual()">📘 Manual</button><button class="btn ghost" onclick="changelog()">🕘 Changelog</button></div>`,{noGuard:true});
+}
+function changelog(){
+  openModal("Changelog",()=>`<h3>v1.0 · 09/11/2026</h3><ul><li>Primeira versão.</li><li>Catálogo de livros com situação, formato, etiquetas, nota e empréstimo.</li><li>Sessão de leitura com título, capítulo, página inicial e última página lida; uma por vez, com pausa.</li><li>Fim de capítulo abre a opção de resumo (Agora, Depois ou Pular); anotações a qualquer momento, com rascunho automático e ditado por voz.</li><li>Vários livros em leitura sem manter nenhum aberto; cartão "Onde parei".</li><li>Tempo líquido (sem pausas) e tempo de calendário por livro; média por dia lido, ritmo e previsão.</li><li>Backup em arquivo; exclusões sempre com confirmação; saída protegida.</li></ul>`,{noGuard:true});
+}
+function manual(){
+  openModal("Manual",()=>`
+  <h3>Aba Hoje</h3><p><b>Iniciar leitura</b>: escolha o livro, o capítulo (ou crie um novo) e a página em que vai começar. O cronômetro conta só o tempo líquido. <b>Pausar</b> para os intervalos, <b>Encerrar</b> para terminar: informe a última página lida e, se for o caso, marque "Terminei este capítulo" ou "Terminei o livro". <b>Abortar</b> descarta uma leitura iniciada por engano. <b>Onde parei</b> mostra cada livro em leitura e o botão Retomar.</p>
+  <h3>Aba Livros</h3><p>Toque em <b>＋ Livro</b> para cadastrar. Toque em um livro para ver progresso, tempo líquido, tempo de calendário, capítulos, sessões e anotações. Capítulos podem ser adicionados em lote, um por linha (nome ; página).</p>
+  <h3>Aba Anotações</h3><p>Reúne todas as anotações, com busca e filtro por tipo. Os resumos pendentes (capítulos concluídos sem resumo) aparecem no topo.</p>
+  <h3>Aba Relatórios</h3><p>Tempo lido hoje, nos últimos 7 e 30 dias, total, e os números de cada livro. <b>Tempo líquido</b> é a soma das sessões sem as pausas; <b>calendário</b> é o intervalo entre o primeiro dia de leitura e o último (ou hoje).</p>
+  <h3>Aba Ajustes</h3><p>Manual, changelog, backup (exportar e importar) e apagar todos os dados (exige digitar APAGAR).</p>
+  <h3>Regras gerais</h3><p>Toda exclusão pede confirmação. As telas fecham pelo botão ✕. Listas em ordem alfabética (capítulos em ordem natural: Capítulo 2 antes do 10).</p>`,{noGuard:true});
+}
+
+/* ---------- saída protegida, offline e início ---------- */
+history.pushState({fx:1},"");
+window.addEventListener("popstate",()=>{
+  history.pushState({fx:1},"");
+  if(mods.length){tryClose(mods[mods.length-1]);return}
+  confirmDlg("Deseja sair do Fênix | Leitura?","Sair",()=>{allowExit=true;history.go(-2);setTimeout(()=>{try{window.close()}catch(e){}},300)},{pri:true});
+});
+window.addEventListener("beforeunload",e=>{if(!allowExit&&(S.ativa||mods.some(m=>m.sujo))){e.preventDefault();e.returnValue=""}});
+setInterval(()=>{const t=$("#tm");if(t)t.textContent=clock(ativaMs())},1000);
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
+render();
+</script>
+</body>
+</html>
