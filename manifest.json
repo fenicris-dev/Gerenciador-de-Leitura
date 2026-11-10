@@ -1,15 +1,23 @@
 {
   "name": "Fênix | Leitura",
-  "short_name": "Leitura",
-  "description": "Catálogo de livros, tempo de leitura e resumos por capítulo",
-  "start_url": "./",
+  "short_name": "Fênix Leitura",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#041273",
+  "orientation": "portrait",
+  "background_color": "#f4f5fb",
   "theme_color": "#041273",
   "lang": "pt-BR",
   "icons": [
-    {"src": "https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_512.png", "sizes": "512x512", "type": "image/png"}
+    {
+      "src": "https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "https://fenicris-dev.github.io/Fenix-Core/Icon/Fenix_Icone_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
   ]
 }
