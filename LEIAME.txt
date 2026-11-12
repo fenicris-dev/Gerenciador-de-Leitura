@@ -1,6 +1,7 @@
-Fênix | Leitura v1.1 (Fênix Soluções Tecnológicas) - Livro das Regras v5.7, fenix-core v5.7
-Para publicar: envie index.html, manifest.json e sw.js para a raiz do site (mesma pasta).
-fenix-leitura-v1.1.html e index.html são idênticos; versoes/ guarda esta versão para retorno.
-Retorno (rollback): v1.0 = Fenix_Leitura_v1.0.html.
-Manual: MD/fenix-leitura-manual-v1.1.md e DOC/fenix-leitura-manual-v1.1.pdf (também dentro do app, em Ajuda).
-Dados da v1.0 neste aparelho são migrados automaticamente na primeira abertura.
+Fênix | Leitura v1.2 (Fênix Soluções Tecnológicas) - Livro das Regras v5.7, fenix-core v5.7
+Publicar: envie index.html, manifest.json e sw.js para a raiz do site (mesma pasta).
+fenix-leitura-v1.2.html e index.html são idênticos; versoes/ guarda a v1.2 e a v1.1 (retorno).
+Novidades: metas do ano, sequência de dias lendo, ISBN/capa/editora/ano/resenha no livro.
+Regras do Firestore: veja DOC/firestore-trecho-fenix-leitura.rules (conferir contra o firestore.rules oficial).
+Manual: MD/fenix-leitura-manual-v1.2.md e DOC/fenix-leitura-manual-v1.2.pdf (também em Ajuda no app).
+Retorno: v1.1 (versoes/fenix-leitura-v1.1.html) ou v1.0 (Fenix_Leitura_v1.0.html).

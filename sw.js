@@ -1,5 +1,5 @@
-/* Fênix | Leitura v1.1 — service worker (offline). O cache acompanha a versão do app. */
-const C = "fenix-leitura-v1.1";
+/* Fênix | Leitura v1.2 — service worker (offline). O cache acompanha a versão do app. */
+const C = "fenix-leitura-v1.2";
 const A = ["./", "index.html", "manifest.json"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(C).then(c => Promise.all(A.map(u => c.add(new Request(u, { cache: "reload" }))))).then(() => self.skipWaiting()));
