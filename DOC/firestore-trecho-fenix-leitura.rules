@@ -1,0 +1,9 @@
+// Trecho para conferir no firestore.rules oficial da biblioteca (regra 46).
+// O app grava só aqui, e nenhuma coleção nova foi criada na v1.2 (a tabela "metas" é mais um documento neste caminho):
+//   dados_pessoais/{uid}/fenix-leitura/{tabela}__{id}
+// O arquivo-base oficial já deve trazer "dados pessoais por usuário"; se não trouxer, acrescente:
+match /dados_pessoais/{uid}/{resto=**} {
+  allow read, write: if request.auth != null && request.auth.uid == uid;
+}
+// O app também usa empresas, usuarios_empresa e equipe_fenix pelo core: essas regras vêm do arquivo-base oficial
+// (regras 46 e 62). NÃO publique o arquivo antigo que só libera "users/{userId}": ele nega a sincronia deste app.
